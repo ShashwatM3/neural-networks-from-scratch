@@ -42,7 +42,7 @@ Step 2: Compute gradient of loss w.r.t each parameter (bias and weight)
 y = 0.0
 
 def d_a_z(neuron):
-  return sigmoid_derivative(neuron[2])
+  return sigmoid_derivative(neuron[3])
 
 def d_L_a(neuron):
   return 2 * (neuron[3] - y)
@@ -64,7 +64,7 @@ gradient_w1 = (
   x
 )
 
-gradient_b1 = (
+bias_b1 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
   d_z_a_prev(neural_network[3]) *
@@ -86,7 +86,7 @@ gradient_w2 = (
   neural_network[0][3]
 )
 
-gradient_b2 = (
+bias_b2 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
   d_z_a_prev(neural_network[3]) *
@@ -104,7 +104,7 @@ gradient_w3 = (
   neural_network[1][3]
 )
 
-gradient_b3 = (
+bias_b3 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
   d_z_a_prev(neural_network[3]) *
@@ -119,7 +119,25 @@ gradient_w4 = (
   neural_network[2][3]
 )
 
-gradient_b4 = (
+bias_b4 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3])
 )
+
+derivatives_gradients=[gradient_w1, gradient_w2, gradient_w3, gradient_w4]
+derivatives_biases=[bias_b1, bias_b2, bias_b3, bias_b4]
+
+"""
+Update: We have successfully conducted 1 backpropagate round
+
+Now we UPDATE the Weights + Biases of NN via GRADIENT DESCENT
+---------------------------------------------------------------
+1. Set the learning rate
+2. use the general formula: [ param_new = param - learning_rate * derivative ]
+"""
+
+learning_rate = 0.01
+
+for i in range(len(neural_network)):
+  neural_network[i][0] = neural_network[i][0] - learning_rate*(derivatives_gradients[i])
+  neural_network[i][1] = neural_network[i][1] - learning_rate*(derivatives_biases[i])
