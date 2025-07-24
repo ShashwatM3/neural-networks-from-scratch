@@ -36,7 +36,7 @@ STAGE 2: We will now simulate BACK PROPAGATION
 -----------------------------------------------
 Overview of steps to be covered:
 Step 1: We calculate the output & loss. For this example, let's just assume the output to be y = 0.0
-Step 2: Compute gradient of loss w.r.t each parameter
+Step 2: Compute gradient of loss w.r.t each parameter (bias and weight)
 """
 
 y = 0.0
