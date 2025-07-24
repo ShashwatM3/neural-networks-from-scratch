@@ -50,8 +50,7 @@ def d_L_a(neuron):
 def d_z_a_prev(neuron):
   return neuron[0]
 
-# Format of layer ======>> [w, b, z, activation]
-
+# -----------------------------------------------------------------
 ### Layer 1 — Gradients
 gradient_w1 = (
   d_a_z(neural_network[3]) *
@@ -77,73 +76,50 @@ gradient_b1 = (
 )
 # -----------------------------------------------------------------
 ### Layer 2 — Gradients
-gradient_w1 = (
+gradient_w2 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
   d_z_a_prev(neural_network[3]) *
   d_a_z(neural_network[2]) * 
   d_z_a_prev(neural_network[2]) *
   d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0]) * 
-  x
+  neural_network[0][3]
 )
 
-gradient_b1 = (
+gradient_b2 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
   d_z_a_prev(neural_network[3]) *
   d_a_z(neural_network[2]) * 
   d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0])
+  d_a_z(neural_network[1])
 )
 # -----------------------------------------------------------------
 ### Layer 3 — Gradients
-gradient_w1 = (
+gradient_w3 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
   d_z_a_prev(neural_network[3]) *
   d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0]) * 
-  x
+  neural_network[1][3]
 )
 
-gradient_b1 = (
+gradient_b3 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
   d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0])
+  d_a_z(neural_network[2])
 )
+
 # -----------------------------------------------------------------
 ### Layer 4 — Gradients
-gradient_w1 = (
+gradient_w4 = (
   d_a_z(neural_network[3]) *
   d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0]) * 
-  x
+  neural_network[2][3]
 )
 
-gradient_b1 = (
+gradient_b4 = (
   d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0])
+  d_L_a(neural_network[3])
 )
