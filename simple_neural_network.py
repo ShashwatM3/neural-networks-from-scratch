@@ -26,9 +26,6 @@ for w, b in zip(weights, biases):
   neural_network.append([w, b, z, activation])
   a_prev = activation #Updating the 'previous' activation for the next layer
 
-for layer in neural_network:
-  print(layer)
-
 """
 Update: We conducted a FORWARD PASS to initialize activations in each layer
 
@@ -39,7 +36,7 @@ Step 1: We calculate the output & loss. For this example, let's just assume the 
 Step 2: Compute gradient of loss w.r.t each parameter (bias and weight)
 """
 
-y = 0.0
+y = 5.0
 
 def d_a_z(neuron):
   return sigmoid_derivative(neuron[3])
@@ -50,94 +47,113 @@ def d_L_a(neuron):
 def d_z_a_prev(neuron):
   return neuron[0]
 
-# -----------------------------------------------------------------
-### Layer 1 — Gradients
-gradient_w1 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0]) * 
-  x
-)
+def backpropagate():
+  # -----------------------------------------------------------------
+  ### Layer 1 — Gradients
+  gradient_w1 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3]) * 
+    d_z_a_prev(neural_network[3]) *
+    d_a_z(neural_network[2]) * 
+    d_z_a_prev(neural_network[2]) *
+    d_a_z(neural_network[1]) * 
+    d_z_a_prev(neural_network[1]) *
+    d_a_z(neural_network[0]) * 
+    x
+  )
 
-bias_b1 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  d_z_a_prev(neural_network[1]) *
-  d_a_z(neural_network[0])
-)
-# -----------------------------------------------------------------
-### Layer 2 — Gradients
-gradient_w2 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1]) * 
-  neural_network[0][3]
-)
+  bias_b1 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3]) * 
+    d_z_a_prev(neural_network[3]) *
+    d_a_z(neural_network[2]) * 
+    d_z_a_prev(neural_network[2]) *
+    d_a_z(neural_network[1]) * 
+    d_z_a_prev(neural_network[1]) *
+    d_a_z(neural_network[0])
+  )
+  # -----------------------------------------------------------------
+  ### Layer 2 — Gradients
+  gradient_w2 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3]) * 
+    d_z_a_prev(neural_network[3]) *
+    d_a_z(neural_network[2]) * 
+    d_z_a_prev(neural_network[2]) *
+    d_a_z(neural_network[1]) * 
+    neural_network[0][3]
+  )
 
-bias_b2 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  d_z_a_prev(neural_network[2]) *
-  d_a_z(neural_network[1])
-)
-# -----------------------------------------------------------------
-### Layer 3 — Gradients
-gradient_w3 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2]) * 
-  neural_network[1][3]
-)
+  bias_b2 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3]) * 
+    d_z_a_prev(neural_network[3]) *
+    d_a_z(neural_network[2]) * 
+    d_z_a_prev(neural_network[2]) *
+    d_a_z(neural_network[1])
+  )
+  # -----------------------------------------------------------------
+  ### Layer 3 — Gradients
+  gradient_w3 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3]) * 
+    d_z_a_prev(neural_network[3]) *
+    d_a_z(neural_network[2]) * 
+    neural_network[1][3]
+  )
 
-bias_b3 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  d_z_a_prev(neural_network[3]) *
-  d_a_z(neural_network[2])
-)
+  bias_b3 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3]) * 
+    d_z_a_prev(neural_network[3]) *
+    d_a_z(neural_network[2])
+  )
 
-# -----------------------------------------------------------------
-### Layer 4 — Gradients
-gradient_w4 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3]) * 
-  neural_network[2][3]
-)
+  # -----------------------------------------------------------------
+  ### Layer 4 — Gradients
+  gradient_w4 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3]) * 
+    neural_network[2][3]
+  )
 
-bias_b4 = (
-  d_a_z(neural_network[3]) *
-  d_L_a(neural_network[3])
-)
+  bias_b4 = (
+    d_a_z(neural_network[3]) *
+    d_L_a(neural_network[3])
+  )
 
-derivatives_gradients=[gradient_w1, gradient_w2, gradient_w3, gradient_w4]
-derivatives_biases=[bias_b1, bias_b2, bias_b3, bias_b4]
+  derivatives_weights=[gradient_w1, gradient_w2, gradient_w3, gradient_w4]
+  derivatives_biases=[bias_b1, bias_b2, bias_b3, bias_b4]
 
-"""
-Update: We have successfully conducted 1 backpropagate round
+  """
+  Update: We have successfully conducted 1 backpropagate round
 
-Now we UPDATE the Weights + Biases of NN via GRADIENT DESCENT
----------------------------------------------------------------
-1. Set the learning rate
-2. use the general formula: [ param_new = param - learning_rate * derivative ]
-"""
+  Now we UPDATE the Weights + Biases of NN via GRADIENT DESCENT
+  ---------------------------------------------------------------
+  1. Set the learning rate
+  2. use the general formula: [ param_new = param - learning_rate * derivative ]
+  """
 
-learning_rate = 0.01
+  learning_rate = 0.01
 
-for i in range(len(neural_network)):
-  neural_network[i][0] = neural_network[i][0] - learning_rate*(derivatives_gradients[i])
-  neural_network[i][1] = neural_network[i][1] - learning_rate*(derivatives_biases[i])
+  for i in range(len(neural_network)):
+    neural_network[i][0] = neural_network[i][0] - learning_rate*(derivatives_weights[i])
+    neural_network[i][1] = neural_network[i][1] - learning_rate*(derivatives_biases[i])
+
+  print("Output now = ", neural_network[-1][3], ". Loss = ", y-neural_network[-1][3])
+
+
+def forwardPass():
+  prev_a = x
+  for layer in neural_network:
+    weight = layer[0]
+    bias = layer[1]
+    z = weight*prev_a + bias
+    prev_a = layer[3]
+    layer[2] = z
+    layer[3] = sigmoid(z)
+
+epochs = int(input("Enter number of epochs - "))
+for i in range(5*epochs):
+  backpropagate()
+  forwardPass()
